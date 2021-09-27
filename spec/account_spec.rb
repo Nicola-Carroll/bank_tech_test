@@ -11,7 +11,7 @@ describe Account do
     described_class.new(transaction_log_class: transaction_log_class)
   end
 
-  let(:blank_statement) { 'date || credit || debit || balance' }
+  let(:blank_statement) { Account::STATEMENT_HEADERS }
   let(:today) { Time.new.strftime('%d/%m/%Y') }
 
   describe '#deposit' do
