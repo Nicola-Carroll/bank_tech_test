@@ -1,5 +1,4 @@
 require 'account'
-require 'transaction_log'
 
 describe Account do
   let(:transaction_log) { double :transaction_log }
