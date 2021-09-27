@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# account interface, processes deposits, withdrawals, and returns statemnts
 class Account
   STATEMENT_HEADERS = 'date || credit || debit || balance'
 
@@ -15,7 +18,7 @@ class Account
 
   def statement
     statement = [STATEMENT_HEADERS]
-    @transaction_log.transactions.each_with_index do |transaction, index|
+    @transaction_log.transactions.each_with_index do |_transaction, index|
       statement.push(render_transaction(index))
     end
     statement.join("\n")
@@ -25,12 +28,12 @@ class Account
 
   def credit(index)
     transaction = @transaction_log.transactions[index]
-    "#{transaction[1]} " if transaction[1] > 0
+    "#{transaction[1]} " if (transaction[1]).positive?
   end
 
   def debit(index)
     transaction = @transaction_log.transactions[index]
-    "#{-transaction[1]} " if transaction[1] < 0
+    "#{-transaction[1]} " if (transaction[1]).negative?
   end
 
   def render_transaction(index)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'account'
 
 describe Account do
@@ -33,13 +35,13 @@ describe Account do
     end
 
     context 'account owner has topped' do
-      let(:expect_100) do
+      let(:expect100) do
         [
           'date || credit || debit || balance',
           "#{today} || 100 || || 100"
         ].join("\n")
       end
-      let(:expect_300) do
+      let(:expect300) do
         [
           'date || credit || debit || balance',
           "#{today} || 100 || || 100",
@@ -47,7 +49,7 @@ describe Account do
           "#{today} || 100 || || 300"
         ].join("\n")
       end
-      let(:expect_795) do
+      let(:expect795) do
         [
           'date || credit || debit || balance',
           "#{today} || 150 || || 150",
@@ -62,7 +64,7 @@ describe Account do
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(100)
-        expect(account.statement).to eq expect_100
+        expect(account.statement).to eq expect100
       end
 
       it 'can calculate account balance from multiple deposits of 100' do
@@ -71,7 +73,7 @@ describe Account do
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(100, 200, 300)
-        expect(account.statement).to eq expect_300
+        expect(account.statement).to eq expect300
       end
 
       it 'can handle varying deposit amounts' do
@@ -80,18 +82,18 @@ describe Account do
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(150, 555, 795)
-        expect(account.statement).to eq expect_795
+        expect(account.statement).to eq expect795
       end
     end
 
     context 'account owner makes a withdrawal' do
-      let(:expect_negative_100) do
+      let(:expect_negative100) do
         [
           'date || credit || debit || balance',
           "#{today} || || 100 || -100"
         ].join("\n")
       end
-      let(:expect_negative_300) do
+      let(:expect_negative300) do
         [
           'date || credit || debit || balance',
           "#{today} || || 100 || -100",
@@ -100,7 +102,7 @@ describe Account do
         ].join("\n")
       end
 
-      let(:expect_175) do
+      let(:expect175) do
         [
           'date || credit || debit || balance',
           "#{today} || 150 || || 150",
@@ -115,7 +117,7 @@ describe Account do
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(-100)
-        expect(account.statement).to eq expect_negative_100
+        expect(account.statement).to eq expect_negative100
       end
 
       it 'can calculate an account balance from multiple withdrawals of 100' do
@@ -124,7 +126,7 @@ describe Account do
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(-100, -200, -300)
-        expect(account.statement).to eq expect_negative_300
+        expect(account.statement).to eq expect_negative300
       end
 
       it 'can combine deposits and withdrawals' do
@@ -133,7 +135,7 @@ describe Account do
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(150, 110, 175)
-        expect(account.statement).to eq expect_175
+        expect(account.statement).to eq expect175
       end
     end
   end

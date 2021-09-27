@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# calculates account balance based on historical transactions
 class TransactionLog
   attr_reader :transactions
 
@@ -15,7 +18,8 @@ class TransactionLog
 
   def total_following_transaction(index = (@transactions.count - 1))
     return 0 if @transactions.empty?
+
     transaction = @transactions[index]
-    @transactions[0, index].sum { |date, amount| amount } + transaction[1]
+    @transactions[0, index].sum { |_date, amount| amount } + transaction[1]
   end
 end
