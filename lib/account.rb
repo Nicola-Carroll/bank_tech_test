@@ -9,8 +9,8 @@ class Account
 
   def statement
     statement = ['date || credit || debit || balance']
-    @transaction_log.each do |transaction|
-      statement.push("#{transaction[0]} || 100 || || 100")
+    @transaction_log.each_with_index do |transaction, index|
+      statement.push("#{transaction[0]} || 100 || || #{100 * (index + 1)}")
     end
     statement.join("\n")
   end
