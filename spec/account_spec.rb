@@ -1,7 +1,8 @@
 require 'account'
+require 'transaction_log'
 
 describe Account do
-  let(:account) { described_class.new }
+  let(:account) { described_class.new(transaction_log_class: TransactionLog) }
   let(:blank_statement) { 'date || credit || debit || balance' }
   let(:today) { Time.new.strftime('%d/%m/%Y') }
 
