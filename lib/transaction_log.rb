@@ -2,6 +2,8 @@
 
 # calculates account balance based on historical transactions
 class TransactionLog
+  DATE_FORMAT = '%d/%m/%Y'
+
   attr_reader :transactions
 
   def initialize
@@ -9,7 +11,7 @@ class TransactionLog
   end
 
   def record_deposit(amount)
-    @transactions << [Time.new.strftime('%d/%m/%Y'), amount]
+    @transactions << [Time.new.strftime(DATE_FORMAT), amount]
   end
 
   def record_withdrawal(amount)

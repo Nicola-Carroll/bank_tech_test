@@ -36,14 +36,11 @@ describe Account do
 
     context 'account owner has topped' do
       let(:expect100) do
-        [
-          'date || credit || debit || balance',
-          "#{today} || 100 || || 100"
-        ].join("\n")
+        [Account::STATEMENT_HEADERS, "#{today} || 100 || || 100"].join("\n")
       end
       let(:expect300) do
         [
-          'date || credit || debit || balance',
+          Account::STATEMENT_HEADERS,
           "#{today} || 100 || || 100",
           "#{today} || 100 || || 200",
           "#{today} || 100 || || 300"
@@ -51,7 +48,7 @@ describe Account do
       end
       let(:expect795) do
         [
-          'date || credit || debit || balance',
+          Account::STATEMENT_HEADERS,
           "#{today} || 150 || || 150",
           "#{today} || 405 || || 555",
           "#{today} || 240 || || 795"
@@ -88,14 +85,11 @@ describe Account do
 
     context 'account owner makes a withdrawal' do
       let(:expect_negative100) do
-        [
-          'date || credit || debit || balance',
-          "#{today} || || 100 || -100"
-        ].join("\n")
+        [Account::STATEMENT_HEADERS, "#{today} || || 100 || -100"].join("\n")
       end
       let(:expect_negative300) do
         [
-          'date || credit || debit || balance',
+          Account::STATEMENT_HEADERS,
           "#{today} || || 100 || -100",
           "#{today} || || 100 || -200",
           "#{today} || || 100 || -300"
@@ -104,7 +98,7 @@ describe Account do
 
       let(:expect175) do
         [
-          'date || credit || debit || balance',
+          Account::STATEMENT_HEADERS,
           "#{today} || 150 || || 150",
           "#{today} || || 40 || 110",
           "#{today} || 65 || || 175"

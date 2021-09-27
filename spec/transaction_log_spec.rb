@@ -4,7 +4,7 @@ require 'transaction_log'
 
 describe TransactionLog do
   let(:transaction_log) { described_class.new }
-  let(:today) { Time.new.strftime('%d/%m/%Y') }
+  let(:today) { Time.new.strftime(TransactionLog::DATE_FORMAT) }
 
   describe '#total_following_transaction' do
     it 'returns zero initially' do
