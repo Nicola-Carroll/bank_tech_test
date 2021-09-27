@@ -68,18 +68,30 @@ describe Account do
         ].join("\n")
       end
 
-      # let(:expect_795) do
-      #   [
-      #     'date || credit || debit || balance',
-      #     "#{today} || 150 || || 150",
-      #     "#{today} || 405 || || 555",
-      #     "#{today} || 240 || || 795"
-      #   ].join("\n")
-      # end
+      let(:expect_175) do
+        [
+          'date || credit || debit || balance',
+          "#{today} || 150 || || 150",
+          "#{today} || || 40 || 110",
+          "#{today} || 65 || || 175"
+        ].join("\n")
+      end
 
       it 'can print a statement for one withdrawal' do
         account.withdraw(100)
         expect(account.statement).to eq expect_negative_100
+      end
+
+      it 'can calculate an account balance from multiple withdrawals of 100' do
+        3.times { account.withdraw(100) }
+        expect(account.statement).to eq expect_negative_300
+      end
+
+      it 'can combine deposits and withdrawals' do
+        account.deposit(150)
+        account.withdraw(40)
+        account.deposit(65)
+        expect(account.statement).to eq expect_175
       end
     end
   end
