@@ -10,7 +10,7 @@ describe TransactionLog do
     end
 
     context 'there have been deposits' do
-      it 'can print a statement for one deposit' do
+      it 'can calculate a total following one deposit' do
         transaction_log.record_deposit(100)
         expect(transaction_log.total_following_transaction).to eq 100
       end
@@ -29,7 +29,7 @@ describe TransactionLog do
     end
 
     context 'there have been withdrawals' do
-      it 'can print a statement for one withdrawal' do
+      it 'can calculate a total following one withdrawal' do
         transaction_log.record_withdrawal(100)
         expect(transaction_log.total_following_transaction).to eq -100
       end
