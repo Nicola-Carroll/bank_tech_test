@@ -7,6 +7,10 @@ class Account
     @transaction_log << [Time.new.strftime('%d/%m/%Y'), amount]
   end
 
+  def withdraw(amount)
+    deposit(-amount)
+  end
+
   def statement
     statement = ['date || credit || debit || balance']
     @transaction_log.each_with_index do |transaction, index|
@@ -24,6 +28,16 @@ class Account
 
   def render_transaction(index)
     transaction = @transaction_log[index]
-    "#{transaction[0]} || #{transaction[1]} || || #{account_balance_following_transaction(index)}"
+    "#{transaction[0]} || #{credit(index)}|| #{debit(index)}|| #{account_balance_following_transaction(index)}"
+  end
+
+  def credit(index)
+    transaction = @transaction_log[index]
+    "#{transaction[1]} " if transaction[1] > 0
+  end
+
+  def debit(index)
+    transaction = @transaction_log[index]
+    "#{-transaction[1]} " if transaction[1] < 0
   end
 end

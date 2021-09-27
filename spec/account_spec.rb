@@ -34,7 +34,7 @@ describe Account do
         ].join("\n")
       end
 
-      it 'can print a statement for transaction' do
+      it 'can print a statement for one deposit' do
         account.deposit(100)
         expect(account.statement).to eq expect_100
       end
@@ -49,6 +49,37 @@ describe Account do
         account.deposit(405)
         account.deposit(240)
         expect(account.statement).to eq expect_795
+      end
+    end
+
+    context 'account owner makes a withdrawal' do
+      let(:expect_negative_100) do
+        [
+          'date || credit || debit || balance',
+          "#{today} || || 100 || -100"
+        ].join("\n")
+      end
+      let(:expect_negative_300) do
+        [
+          'date || credit || debit || balance',
+          "#{today} || || 100 || -100",
+          "#{today} || || 100 || -200",
+          "#{today} || || 100 || -300"
+        ].join("\n")
+      end
+
+      # let(:expect_795) do
+      #   [
+      #     'date || credit || debit || balance',
+      #     "#{today} || 150 || || 150",
+      #     "#{today} || 405 || || 555",
+      #     "#{today} || 240 || || 795"
+      #   ].join("\n")
+      # end
+
+      it 'can print a statement for one withdrawal' do
+        account.withdraw(100)
+        expect(account.statement).to eq expect_negative_100
       end
     end
   end
