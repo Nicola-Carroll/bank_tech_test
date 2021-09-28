@@ -4,8 +4,6 @@
 class TransactionLog
   DATE_FORMAT = '%d/%m/%Y'
 
-  attr_reader :transactions
-
   def initialize(transaction_class:)
     @transactions = []
     @transaction_class = transaction_class
@@ -19,8 +17,24 @@ class TransactionLog
       )
   end
 
+  def historical_transaction_dates
+    @transactions.map { |transaction| transaction.date }
+  end
+
+  def historical_transaction_amounts
+    @transactions.map { |transaction| transaction.amount }
+  end
+
+  def historical_balances
+    @transactions.each_with_index.map do |transaction, index|
+      total_following_transaction(index)
+    end
+  end
+
+  private
+
   def total_following_transaction(index = @transactions.count - 1)
-    return 0 if @transactions.empty?
+    return nil if @transactions.empty?
 
     transaction = @transactions[index]
     @transactions[0, index].sum(&:amount) + transaction.amount

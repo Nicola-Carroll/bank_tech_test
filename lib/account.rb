@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
-# the account interface, processes deposits, withdrawals, and returns statemnts
+# the user interface of the bank account
 class Account
-  STATEMENT_HEADERS = 'date || credit || debit || balance'
-
-  def initialize(transaction_log_class:, transaction_class:)
+  def initialize(
+    transaction_class:,
+    transaction_log_class:,
+    statement_formatter_class:
+  )
     @transaction_log =
       transaction_log_class.new(transaction_class: transaction_class)
+    @statement_formatter = statement_formatter_class.new
   end
 
   def deposit(amount)
@@ -22,40 +25,12 @@ class Account
   end
 
   def statement
-    statement = [STATEMENT_HEADERS]
-    @transaction_log.transactions.each_with_index do |_transaction, index|
-      statement.push(render_transaction(index))
-    end
-    statement.join("\n")
-  end
-
-  private
-
-  def credit(index)
-    transaction = @transaction_log.transactions[index]
-    "#{string_with_two_decimals(transaction.amount)} " if transaction.amount.positive?
-  end
-
-  def debit(index)
-    transaction = @transaction_log.transactions[index]
-    "#{string_with_two_decimals(-transaction.amount)} " if transaction.amount.negative?
-  end
-
-  def total(index)
-    string_with_two_decimals(
-      @transaction_log.total_following_transaction(index)
+    @statement_formatter.statement(
+      historical_transaction_dates:
+        @transaction_log.historical_transaction_dates,
+      historical_transaction_amounts:
+        @transaction_log.historical_transaction_amounts,
+      historical_balances: @transaction_log.historical_balances
     )
-  end
-
-  def render_transaction(index)
-    transaction = @transaction_log.transactions[index]
-    "#{transaction.date} ||" \
-      " #{credit(index)}||" \
-      " #{debit(index)}||" \
-      " #{total(index)}"
-  end
-
-  def string_with_two_decimals(number)
-    format('%.2f', number)
   end
 end

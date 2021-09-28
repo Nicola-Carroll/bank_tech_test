@@ -8,74 +8,106 @@ describe TransactionLog do
   let(:transaction_log) do
     described_class.new(transaction_class: transaction_class)
   end
-  let(:variable_transaction) { double :variable, date: today }
 
-  describe '#total_following_transaction' do
-    it 'returns zero initially' do
-      expect(transaction_log.total_following_transaction).to eq 0
-    end
+  context 'there have been deposits and withdrawals' do
+    let(:transaction100) { double :transaction, date: today, amount: 100 }
+    let(:variable_transaction) { double :variable, date: today }
 
     context 'there have been deposits' do
-      let(:transaction100) { double :transaction, date: today, amount: 100 }
+      describe '#historical_transaction_dates' do
+        it 'records the date a deposit was made' do
+          allow(transaction_class).to receive(:new).and_return(transaction100)
 
-      it 'can calculate a total following one deposit' do
-        allow(transaction_class).to receive(:new).and_return(transaction100)
-        transaction_log.record_transaction(100)
-        expect(transaction_log.total_following_transaction).to eq 100
+          transaction_log.record_transaction(100)
+          expect(transaction_log.historical_transaction_dates).to eq [today]
+        end
+
+        it 'records the dates of all deposits' do
+          allow(transaction_class).to receive(:new).and_return(transaction100)
+
+          3.times { transaction_log.record_transaction(100) }
+          expect(transaction_log.historical_transaction_dates).to eq [
+               today,
+               today,
+               today
+             ]
+        end
       end
 
-      it 'can calculate an account balance from multiple deposits of 100' do
-        allow(transaction_class).to receive(:new).and_return(transaction100)
-        3.times { transaction_log.record_transaction(100) }
-        expect(transaction_log.total_following_transaction).to eq 300
+      describe '#historical_transaction_amounts' do
+        it 'records the amount of a deposit' do
+          allow(transaction_class).to receive(:new).and_return(transaction100)
+
+          transaction_log.record_transaction(100)
+          expect(transaction_log.historical_transaction_amounts).to eq [100]
+        end
+
+        it 'records the amount of all deposits' do
+          allow(transaction_class).to receive(:new).and_return(
+            variable_transaction
+          )
+          allow(variable_transaction).to receive(:amount).and_return(
+            150,
+            405,
+            -50,
+            240,
+            -100
+          )
+
+          transaction_log.record_transaction(150)
+          transaction_log.record_transaction(405)
+          transaction_log.record_transaction(-50)
+          transaction_log.record_transaction(240)
+          transaction_log.record_transaction(-100)
+
+          expect(transaction_log.historical_transaction_amounts).to eq [
+               150,
+               405,
+               -50,
+               240,
+               -100
+             ]
+        end
       end
 
-      it 'can handle varying deposit amounts' do
-        allow(transaction_class).to receive(:new).and_return(
-          variable_transaction
-        )
-        allow(variable_transaction).to receive(:amount).and_return(
-          150,
-          405,
-          240
-        )
-        transaction_log.record_transaction(150)
-        transaction_log.record_transaction(405)
-        transaction_log.record_transaction(240)
-        expect(transaction_log.total_following_transaction).to eq 795
-      end
-    end
+      describe '#historical_balances' do
+        let(:transaction150) { double :transaction, date: today, amount: 150 }
+        let(:transaction_negative50) do
+          double :transaction, date: today, amount: -50
+        end
+        let(:transaction240) { double :transaction, date: today, amount: 240 }
+        let(:transaction_negative100) do
+          double :transaction, date: today, amount: -100
+        end
 
-    context 'there have been withdrawals' do
-      let(:transaction_negative100) do
-        double :transaction, date: today, amount: -100
-      end
+        it 'can calculate the balance after a deposit' do
+          allow(transaction_class).to receive(:new).and_return(transaction100)
 
-      it 'can calculate a total following one withdrawal' do
-        allow(transaction_class).to receive(:new).and_return(
-          transaction_negative100
-        )
-        transaction_log.record_transaction(-100)
-        expect(transaction_log.total_following_transaction).to eq(-100)
-      end
+          transaction_log.record_transaction(100)
+          expect(transaction_log.historical_balances).to eq [100]
+        end
 
-      it 'can calculate an account balance from multiple withdrawals of 100' do
-        allow(transaction_class).to receive(:new).and_return(
-          transaction_negative100
-        )
-        3.times { transaction_log.record_transaction(-100) }
-        expect(transaction_log.total_following_transaction).to eq(-300)
-      end
+        it 'can calculate the balance after multiple transactions' do
+          allow(transaction_class).to receive(:new).and_return(
+            transaction150,
+            transaction_negative50,
+            transaction240,
+            transaction_negative100
+          )
+          allow(variable_transaction).to receive(:amount).and_return(
+            150,
+            -50,
+            240,
+            -100
+          )
 
-      it 'can combine deposits and withdrawals' do
-        allow(transaction_class).to receive(:new).and_return(
-          variable_transaction
-        )
-        allow(variable_transaction).to receive(:amount).and_return(150, -40, 65)
-        transaction_log.record_transaction(150)
-        transaction_log.record_transaction(-40)
-        transaction_log.record_transaction(65)
-        expect(transaction_log.total_following_transaction).to eq 175
+          transaction_log.record_transaction(150)
+          transaction_log.record_transaction(-50)
+          transaction_log.record_transaction(240)
+          transaction_log.record_transaction(-100)
+
+          expect(transaction_log.historical_balances).to eq [150, 100, 340, 240]
+        end
       end
     end
   end
