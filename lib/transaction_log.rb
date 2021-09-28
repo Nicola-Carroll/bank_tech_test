@@ -18,7 +18,8 @@ class TransactionLog
     return 0 if @transactions.empty?
 
     transaction = @transactions[index]
-    @transactions[0, index].sum { |transaction| transaction[:amount] } +
-      transaction[:amount]
+    @transactions[0, index].sum do |previous_transaction|
+      previous_transaction[:amount]
+    end + transaction[:amount]
   end
 end

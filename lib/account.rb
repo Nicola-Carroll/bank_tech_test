@@ -32,16 +32,16 @@ class Account
 
   def credit(index)
     transaction = @transaction_log.transactions[index]
-    "#{'%.2f' % transaction[:amount]} " if (transaction[:amount]).positive?
+    "#{format('%.2f', transaction[:amount])} " if (transaction[:amount]).positive?
   end
 
   def debit(index)
     transaction = @transaction_log.transactions[index]
-    "#{'%.2f' % -transaction[:amount]} " if (transaction[:amount]).negative?
+    "#{format('%.2f', -transaction[:amount])} " if (transaction[:amount]).negative?
   end
 
   def total(index)
-    '%.2f' % @transaction_log.total_following_transaction(index)
+    format('%.2f', @transaction_log.total_following_transaction(index))
   end
 
   def render_transaction(index)
