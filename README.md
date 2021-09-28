@@ -1,13 +1,24 @@
-##Specification
+# Bank tech test
 
-###Requirements
+This is a simple program which can be interacted with via a REPL, that replicates a bank account.
+
+## Technologies
+
+- Ruby 3.0.2
+- RSpec for testing
+- Rubocop for formatting
+- SimpleCov for test coverage
+
+## Specification
+
+### Requirements
 - Interactions via IRB
 - Deposits
 - Withdrawals
 - Print account statements (date, amount, balance), showing history of transactions
 - Data kept in memory (not a DB)
 
-###Acceptance criteria
+### Acceptance criteria
 
 **Given** a client makes a deposit of 1000 on 10-01-2023
 **And** a deposit of 2000 on 13-01-2023
@@ -22,7 +33,7 @@ date || credit || debit || balance
 10/01/2012 || 1000.00 || || 1000.00
 ```
 
-##Initial domain model
+## Initial domain model
 
 ![image](https://user-images.githubusercontent.com/83607124/135060069-09e0b168-b1c0-42f5-b82e-fef3c7d52576.png)
 
