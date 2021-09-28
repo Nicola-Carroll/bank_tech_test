@@ -8,6 +8,7 @@ This is a simple program which can be interacted with via a REPL, that replicate
 - RSpec for testing
 - Rubocop for formatting
 - SimpleCov for test coverage
+- Travis CI to run spec suite with each push
 
 ## Specification
 
