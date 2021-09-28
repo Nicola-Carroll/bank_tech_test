@@ -2,7 +2,7 @@
 
 This is a simple program which can be interacted with via a REPL, that replicates a bank account.
 
-## Technologies
+### Technologies
 
 - Ruby 3.0.2
 - RSpec for testing
