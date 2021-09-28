@@ -16,38 +16,38 @@ describe Account do
 
   describe '#deposit' do
     it 'does not accept strings' do
-      expect {
+      expect do
         account.deposit('100')
-      }.to raise_error 'Invalid input, please enter a float'
+      end.to raise_error 'Invalid input, please enter a float'
     end
 
     it 'only accepts floats' do
-      expect {
+      expect do
         account.deposit(100)
-      }.to raise_error 'Invalid input, please enter a float'
+      end.to raise_error 'Invalid input, please enter a float'
     end
 
     it 'records a deposit in the transaction log' do
-      expect(transaction_log).to receive(:record_deposit).with(100.0)
+      expect(transaction_log).to receive(:record_transaction).with(100.0)
       account.deposit(100.0)
     end
   end
 
   describe '#withdraw' do
     it 'does not accept strings' do
-      expect {
+      expect do
         account.withdraw('100')
-      }.to raise_error 'Invalid input, please enter a float'
+      end.to raise_error 'Invalid input, please enter a float'
     end
 
     it 'only accepts floats' do
-      expect {
+      expect do
         account.withdraw(100)
-      }.to raise_error 'Invalid input, please enter a float'
+      end.to raise_error 'Invalid input, please enter a float'
     end
 
     it 'records a withdrawal in the transaction log' do
-      expect(transaction_log).to receive(:record_withdrawal).with(100.0)
+      expect(transaction_log).to receive(:record_transaction).with(-100.0)
       account.withdraw(100.0)
     end
   end

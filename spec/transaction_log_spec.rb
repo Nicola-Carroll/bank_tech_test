@@ -13,38 +13,38 @@ describe TransactionLog do
 
     context 'there have been deposits' do
       it 'can calculate a total following one deposit' do
-        transaction_log.record_deposit(100)
+        transaction_log.record_transaction(100)
         expect(transaction_log.total_following_transaction).to eq 100
       end
 
       it 'can calculate an account balance from multiple deposits of 100' do
-        3.times { transaction_log.record_deposit(100) }
+        3.times { transaction_log.record_transaction(100) }
         expect(transaction_log.total_following_transaction).to eq 300
       end
 
       it 'can handle varying deposit amounts' do
-        transaction_log.record_deposit(150)
-        transaction_log.record_deposit(405)
-        transaction_log.record_deposit(240)
+        transaction_log.record_transaction(150)
+        transaction_log.record_transaction(405)
+        transaction_log.record_transaction(240)
         expect(transaction_log.total_following_transaction).to eq 795
       end
     end
 
     context 'there have been withdrawals' do
       it 'can calculate a total following one withdrawal' do
-        transaction_log.record_withdrawal(100)
+        transaction_log.record_transaction(-100)
         expect(transaction_log.total_following_transaction).to eq(-100)
       end
 
       it 'can calculate an account balance from multiple withdrawals of 100' do
-        3.times { transaction_log.record_withdrawal(100) }
+        3.times { transaction_log.record_transaction(-100) }
         expect(transaction_log.total_following_transaction).to eq(-300)
       end
 
       it 'can combine deposits and withdrawals' do
-        transaction_log.record_deposit(150)
-        transaction_log.record_withdrawal(40)
-        transaction_log.record_deposit(65)
+        transaction_log.record_transaction(150)
+        transaction_log.record_transaction(-40)
+        transaction_log.record_transaction(65)
         expect(transaction_log.total_following_transaction).to eq 175
       end
     end

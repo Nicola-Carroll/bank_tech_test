@@ -11,13 +11,13 @@ class Account
   def deposit(amount)
     raise 'Invalid input, please enter a float' unless amount.is_a?(Float)
 
-    @transaction_log.record_deposit(amount)
+    @transaction_log.record_transaction(amount)
   end
 
   def withdraw(amount)
     raise 'Invalid input, please enter a float' unless amount.is_a?(Float)
 
-    @transaction_log.record_withdrawal(amount)
+    @transaction_log.record_transaction(-amount)
   end
 
   def statement

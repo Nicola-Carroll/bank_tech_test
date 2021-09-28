@@ -10,15 +10,11 @@ class TransactionLog
     @transactions = []
   end
 
-  def record_deposit(amount)
+  def record_transaction(amount)
     @transactions << { date: Time.new.strftime(DATE_FORMAT), amount: amount }
   end
 
-  def record_withdrawal(amount)
-    record_deposit(-amount)
-  end
-
-  def total_following_transaction(index = (@transactions.count - 1))
+  def total_following_transaction(index = @transactions.count - 1)
     return 0 if @transactions.empty?
 
     transaction = @transactions[index]
