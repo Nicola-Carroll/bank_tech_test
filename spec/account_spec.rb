@@ -83,7 +83,7 @@ describe Account do
 
       it 'can print a statement for one deposit' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, 100.0]]
+          [{ date: today, amount: 100.0 }]
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(100.0)
@@ -92,7 +92,11 @@ describe Account do
 
       it 'can calculate account balance from multiple deposits of 100' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, 100.0], [today, 100.0], [today, 100.0]]
+          [
+            { date: today, amount: 100.0 },
+            { date: today, amount: 100.0 },
+            { date: today, amount: 100.0 }
+          ]
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(100.0, 200.0, 300.0)
@@ -101,7 +105,11 @@ describe Account do
 
       it 'can handle varying deposit amounts' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, 150.0], [today, 405.0], [today, 240.0]]
+          [
+            { date: today, amount: 150.0 },
+            { date: today, amount: 405.0 },
+            { date: today, amount: 240.0 }
+          ]
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(150.0, 555.0, 795.0)
@@ -135,7 +143,7 @@ describe Account do
 
       it 'can print a statement for one withdrawal' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, -100.0]]
+          [{ date: today, amount: -100.0 }]
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(-100.0)
@@ -144,7 +152,11 @@ describe Account do
 
       it 'can calculate an account balance from multiple withdrawals of 100' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, -100.0], [today, -100.0], [today, -100.0]]
+          [
+            { date: today, amount: -100.0 },
+            { date: today, amount: -100.0 },
+            { date: today, amount: -100.0 }
+          ]
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(-100, -200, -300)
@@ -153,7 +165,11 @@ describe Account do
 
       it 'can combine deposits and withdrawals' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, 150.0], [today, -40.0], [today, 65.0]]
+          [
+            { date: today, amount: 150.0 },
+            { date: today, amount: -40.0 },
+            { date: today, amount: 65.0 }
+          ]
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(150.0, 110.0, 175.0)

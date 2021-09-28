@@ -11,7 +11,7 @@ class TransactionLog
   end
 
   def record_deposit(amount)
-    @transactions << [Time.new.strftime(DATE_FORMAT), amount]
+    @transactions << { date: Time.new.strftime(DATE_FORMAT), amount: amount }
   end
 
   def record_withdrawal(amount)
@@ -22,6 +22,7 @@ class TransactionLog
     return 0 if @transactions.empty?
 
     transaction = @transactions[index]
-    @transactions[0, index].sum { |_date, amount| amount } + transaction[1]
+    @transactions[0, index].sum { |transaction| transaction[:amount] } +
+      transaction[:amount]
   end
 end
