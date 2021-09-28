@@ -15,16 +15,40 @@ describe Account do
   let(:today) { Time.new.strftime('%d/%m/%Y') }
 
   describe '#deposit' do
+    it 'does not accept strings' do
+      expect {
+        account.deposit('100')
+      }.to raise_error 'Invalid input, please enter a float'
+    end
+
+    it 'only accepts floats' do
+      expect {
+        account.deposit(100)
+      }.to raise_error 'Invalid input, please enter a float'
+    end
+
     it 'records a deposit in the transaction log' do
-      expect(transaction_log).to receive(:record_deposit).with(100)
-      account.deposit(100)
+      expect(transaction_log).to receive(:record_deposit).with(100.0)
+      account.deposit(100.0)
     end
   end
 
   describe '#withdraw' do
+    it 'does not accept strings' do
+      expect {
+        account.withdraw('100')
+      }.to raise_error 'Invalid input, please enter a float'
+    end
+
+    it 'only accepts floats' do
+      expect {
+        account.withdraw(100)
+      }.to raise_error 'Invalid input, please enter a float'
+    end
+
     it 'records a withdrawal in the transaction log' do
-      expect(transaction_log).to receive(:record_withdrawal).with(100)
-      account.withdraw(100)
+      expect(transaction_log).to receive(:record_withdrawal).with(100.0)
+      account.withdraw(100.0)
     end
   end
 
@@ -36,87 +60,91 @@ describe Account do
 
     context 'account owner has topped' do
       let(:expect100) do
-        [Account::STATEMENT_HEADERS, "#{today} || 100 || || 100"].join("\n")
+        [Account::STATEMENT_HEADERS, "#{today} || 100.00 || || 100.00"].join(
+          "\n"
+        )
       end
       let(:expect300) do
         [
           Account::STATEMENT_HEADERS,
-          "#{today} || 100 || || 100",
-          "#{today} || 100 || || 200",
-          "#{today} || 100 || || 300"
+          "#{today} || 100.00 || || 100.00",
+          "#{today} || 100.00 || || 200.00",
+          "#{today} || 100.00 || || 300.00"
         ].join("\n")
       end
       let(:expect795) do
         [
           Account::STATEMENT_HEADERS,
-          "#{today} || 150 || || 150",
-          "#{today} || 405 || || 555",
-          "#{today} || 240 || || 795"
+          "#{today} || 150.00 || || 150.00",
+          "#{today} || 405.00 || || 555.00",
+          "#{today} || 240.00 || || 795.00"
         ].join("\n")
       end
 
       it 'can print a statement for one deposit' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, 100]]
+          [[today, 100.0]]
         )
         allow(transaction_log).to receive(:total_following_transaction)
-          .and_return(100)
+          .and_return(100.0)
         expect(account.statement).to eq expect100
       end
 
       it 'can calculate account balance from multiple deposits of 100' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, 100], [today, 100], [today, 100]]
+          [[today, 100.0], [today, 100.0], [today, 100.0]]
         )
         allow(transaction_log).to receive(:total_following_transaction)
-          .and_return(100, 200, 300)
+          .and_return(100.0, 200.0, 300.0)
         expect(account.statement).to eq expect300
       end
 
       it 'can handle varying deposit amounts' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, 150], [today, 405], [today, 240]]
+          [[today, 150.0], [today, 405.0], [today, 240.0]]
         )
         allow(transaction_log).to receive(:total_following_transaction)
-          .and_return(150, 555, 795)
+          .and_return(150.0, 555.0, 795.0)
         expect(account.statement).to eq expect795
       end
     end
 
     context 'account owner makes a withdrawal' do
       let(:expect_negative100) do
-        [Account::STATEMENT_HEADERS, "#{today} || || 100 || -100"].join("\n")
+        [Account::STATEMENT_HEADERS, "#{today} || || 100.00 || -100.00"].join(
+          "\n"
+        )
       end
       let(:expect_negative300) do
         [
           Account::STATEMENT_HEADERS,
-          "#{today} || || 100 || -100",
-          "#{today} || || 100 || -200",
-          "#{today} || || 100 || -300"
+          "#{today} || || 100.00 || -100.00",
+          "#{today} || || 100.00 || -200.00",
+          "#{today} || || 100.00 || -300.00"
         ].join("\n")
       end
 
       let(:expect175) do
         [
           Account::STATEMENT_HEADERS,
-          "#{today} || 150 || || 150",
-          "#{today} || || 40 || 110",
-          "#{today} || 65 || || 175"
+          "#{today} || 150.00 || || 150.00",
+          "#{today} || || 40.00 || 110.00",
+          "#{today} || 65.00 || || 175.00"
         ].join("\n")
       end
 
       it 'can print a statement for one withdrawal' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, -100]]
+          [[today, -100.0]]
         )
         allow(transaction_log).to receive(:total_following_transaction)
-          .and_return(-100)
+          .and_return(-100.0)
         expect(account.statement).to eq expect_negative100
       end
 
       it 'can calculate an account balance from multiple withdrawals of 100' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, -100], [today, -100], [today, -100]]
+          [[today, -100.0], [today, -100.0], [today, -100.0]]
         )
         allow(transaction_log).to receive(:total_following_transaction)
           .and_return(-100, -200, -300)
@@ -125,10 +153,10 @@ describe Account do
 
       it 'can combine deposits and withdrawals' do
         allow(transaction_log).to receive(:transactions).and_return(
-          [[today, 150], [today, -40], [today, 65]]
+          [[today, 150.0], [today, -40.0], [today, 65.0]]
         )
         allow(transaction_log).to receive(:total_following_transaction)
-          .and_return(150, 110, 175)
+          .and_return(150.0, 110.0, 175.0)
         expect(account.statement).to eq expect175
       end
     end

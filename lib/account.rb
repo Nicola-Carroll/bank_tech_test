@@ -9,10 +9,14 @@ class Account
   end
 
   def deposit(amount)
+    raise 'Invalid input, please enter a float' unless amount.is_a?(Float)
+
     @transaction_log.record_deposit(amount)
   end
 
   def withdraw(amount)
+    raise 'Invalid input, please enter a float' unless amount.is_a?(Float)
+
     @transaction_log.record_withdrawal(amount)
   end
 
@@ -28,12 +32,16 @@ class Account
 
   def credit(index)
     transaction = @transaction_log.transactions[index]
-    "#{transaction[1]} " if (transaction[1]).positive?
+    "#{'%.2f' % transaction[1]} " if (transaction[1]).positive?
   end
 
   def debit(index)
     transaction = @transaction_log.transactions[index]
-    "#{-transaction[1]} " if (transaction[1]).negative?
+    "#{'%.2f' % -transaction[1]} " if (transaction[1]).negative?
+  end
+
+  def total(index)
+    '%.2f' % @transaction_log.total_following_transaction(index)
   end
 
   def render_transaction(index)
@@ -41,6 +49,6 @@ class Account
     "#{transaction[0]} ||" \
       " #{credit(index)}||" \
       " #{debit(index)}||" \
-      " #{@transaction_log.total_following_transaction(index)}"
+      " #{total(index)}"
   end
 end
