@@ -85,6 +85,7 @@ date || credit || debit || balance
 29/09/2021 || || 50.00 || 50.00
 ```
 
+To open a new account, the `Account` class requires three arguments: `transaction_class:`, `transaction_log_class:`, and `statement_formatter_class:`. 
 
 
 
