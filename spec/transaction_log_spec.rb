@@ -3,7 +3,7 @@
 require 'transaction_log'
 
 describe TransactionLog do
-  let(:today) { Time.new.strftime(TransactionLog::DATE_FORMAT) }
+  let(:today) { Time.new }
   let(:transaction_class) { double :transaction_class }
   let(:transaction_log) do
     described_class.new(transaction_class: transaction_class)
