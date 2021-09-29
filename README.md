@@ -94,14 +94,12 @@ date || credit || debit || balance
 
 ## Final approach
 
-This project contains four classes - `Account`, `StatementFormatter`, `Transaction`, `TransactionLog`
-
 
 
 | Class name  | Description | Knows about | Attributes | Methods
 | ----------- | -----------------| ----------- | ---------- | ------- 
-| `Account`  | The user interface of the account  | `StatementFormatter`, `Transaction`, `TransactionLog` | `statement_formatter`, `transaction_log` |
-| `StatementFormatter`  | Formats a statement  | | | |
+| `Account`  | The user interface of the account  | `StatementFormatter`, `Transaction`, `TransactionLog` | `statement_formatter`, `transaction_log` | `deposit`, `withdraw` - allows the user to deposit/withdraw money resp., `statement` - prints the users latest statement
+| `StatementFormatter`  | Formats a statement  | | | `statement` - formats a statement |
 | `Transaction` | Stores data of a single transaction | `date`, `amount` | |
-| `TransactionLog` | Historical transactions | `Transaction` | `transactions` | |
+| `TransactionLog` | Handles historical transactions | `Transaction` | `transactions` | `record_transaction` - initations a transaction and stores it, `historical_balances/transaction_dates/transaction_amounts` - returns an array of the respective historical transaction data |
 
