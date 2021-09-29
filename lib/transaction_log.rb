@@ -10,11 +10,7 @@ class TransactionLog
   end
 
   def record_transaction(amount)
-    @transactions <<
-      @transaction_class.new(
-        date: Time.new.strftime(DATE_FORMAT),
-        amount: amount
-      )
+    @transactions << @transaction_class.new(date: Time.new, amount: amount)
   end
 
   def historical_transaction_dates
