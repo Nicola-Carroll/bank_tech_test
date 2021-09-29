@@ -92,3 +92,16 @@ date || credit || debit || balance
 
 ![image](https://user-images.githubusercontent.com/83607124/135060069-09e0b168-b1c0-42f5-b82e-fef3c7d52576.png)
 
+## Final approach
+
+This project contains four classes - `Account`, `StatementFormatter`, `Transaction`, `TransactionLog`
+
+
+
+| Class name  | Description | Knows about | Attributes | Methods
+| ----------- | ------------| ----------- | ---------- | ------- 
+| `Account`  | The user interface of the account  | `StatementFormatter`, `Transaction`, `TransactionLog` | `statement_formatter`, `transaction_log` |
+| `StatementFormatter`  | Formats the a statement  | | | |
+| `Transaction` | Stores data of a single transaction | `date`, `amount` | |
+| `TransactionLog` | Historical transactions | `Transaction` | `transactions` | |
+
