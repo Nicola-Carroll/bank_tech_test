@@ -99,9 +99,9 @@ This project contains four classes - `Account`, `StatementFormatter`, `Transacti
 
 
 | Class name  | Description | Knows about | Attributes | Methods
-| ----------- | ------------| ----------- | ---------- | ------- 
+| ----------- | -----------------| ----------- | ---------- | ------- 
 | `Account`  | The user interface of the account  | `StatementFormatter`, `Transaction`, `TransactionLog` | `statement_formatter`, `transaction_log` |
-| `StatementFormatter`  | Formats the a statement  | | | |
+| `StatementFormatter`  | Formats a statement  | | | |
 | `Transaction` | Stores data of a single transaction | `date`, `amount` | |
 | `TransactionLog` | Historical transactions | `Transaction` | `transactions` | |
 
