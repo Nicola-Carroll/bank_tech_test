@@ -2,8 +2,6 @@
 
 # manages historical transactions of an account
 class TransactionLog
-  DATE_FORMAT = '%d/%m/%Y'
-
   def initialize(transaction_class:)
     @transactions = []
     @transaction_class = transaction_class
