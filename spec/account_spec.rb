@@ -47,15 +47,15 @@ describe Account do
 
   describe '#withdraw' do
     it 'does not accept strings' do
-      expect {
+      expect do
         account.withdraw('100')
-      }.to raise_error 'Invalid input, please enter a float'
+      end.to raise_error 'Invalid input, please enter a float'
     end
 
     it 'only accepts floats' do
-      expect {
+      expect do
         account.withdraw(100)
-      }.to raise_error 'Invalid input, please enter a float'
+      end.to raise_error 'Invalid input, please enter a float'
     end
 
     it 'records a withdrawal in the transaction log' do

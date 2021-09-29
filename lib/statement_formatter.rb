@@ -10,9 +10,23 @@ class StatementFormatter
     historical_transaction_amounts:,
     historical_balances:
   )
-    statement = [STATEMENT_HEADERS]
+    statement_rows(
+      historical_transaction_dates,
+      historical_transaction_amounts,
+      historical_balances
+    ).each { |row| puts row }
+  end
+
+  private
+
+  def statement_rows(
+    historical_transaction_dates,
+    historical_transaction_amounts,
+    historical_balances
+  )
+    rows = [STATEMENT_HEADERS]
     historical_transaction_dates.each_with_index do |date, index|
-      statement.push(
+      rows.push(
         transaction(
           date,
           historical_transaction_amounts[index],
@@ -20,10 +34,8 @@ class StatementFormatter
         )
       )
     end
-    statement.each { |row| puts row }
+    rows
   end
-
-  private
 
   def credit(amount)
     "#{string_with_two_decimals(amount)} " if amount.positive?

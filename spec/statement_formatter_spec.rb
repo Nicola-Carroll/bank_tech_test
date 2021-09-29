@@ -5,22 +5,22 @@ require 'statement_formatter'
 describe StatementFormatter do
   let(:statement_formatter) { described_class.new }
 
-  let(:spoof_date) { Time.new(2021, 01, 01) }
+  let(:spoof_date) { Time.new(2021, 0o1, 0o1) }
   let(:spoof_date_formatted) do
-    Time.new(2021, 01, 01).strftime(StatementFormatter::DATE_FORMAT)
+    Time.new(2021, 0o1, 0o1).strftime(StatementFormatter::DATE_FORMAT)
   end
 
   describe '#statement' do
     let(:blank_statement) { "#{StatementFormatter::STATEMENT_HEADERS}\n" }
 
     it 'renders a blank statement correctly' do
-      expect {
+      expect do
         statement_formatter.statement(
           historical_transaction_dates: [],
           historical_transaction_amounts: [],
           historical_balances: []
         )
-      }.to output(blank_statement).to_stdout
+      end.to output(blank_statement).to_stdout
     end
 
     context 'there have been deposits' do
@@ -37,23 +37,23 @@ describe StatementFormatter do
       end
 
       it 'renders deposits correctly' do
-        expect {
+        expect do
           statement_formatter.statement(
             historical_transaction_dates: [spoof_date, spoof_date, spoof_date],
             historical_transaction_amounts: [100, 100, 100],
             historical_balances: [100, 200, 300]
           )
-        }.to output(expected_output).to_stdout
+        end.to output(expected_output).to_stdout
       end
 
       it 'rounds decimals correctly' do
-        expect {
+        expect do
           statement_formatter.statement(
             historical_transaction_dates: [spoof_date, spoof_date],
             historical_transaction_amounts: [100.1211, 100.547],
             historical_balances: [100.1211, 200.6681]
           )
-        }.to output(expected_output_decimals).to_stdout
+        end.to output(expected_output_decimals).to_stdout
       end
     end
 
@@ -66,13 +66,13 @@ describe StatementFormatter do
       end
 
       it 'renders deposits and withdrawals correctly' do
-        expect {
+        expect do
           statement_formatter.statement(
             historical_transaction_dates: [spoof_date, spoof_date, spoof_date],
             historical_transaction_amounts: [150, -400.1, 55.65],
             historical_balances: [150, -250.1, -194.45]
           )
-        }.to output(expected_output).to_stdout
+        end.to output(expected_output).to_stdout
       end
     end
   end

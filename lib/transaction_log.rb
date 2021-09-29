@@ -14,15 +14,15 @@ class TransactionLog
   end
 
   def historical_transaction_dates
-    @transactions.map { |transaction| transaction.date }
+    @transactions.map(&:date)
   end
 
   def historical_transaction_amounts
-    @transactions.map { |transaction| transaction.amount }
+    @transactions.map(&:amount)
   end
 
   def historical_balances
-    @transactions.each_with_index.map do |transaction, index|
+    @transactions.each_with_index.map do |_transaction, index|
       total_following_transaction(index)
     end
   end
