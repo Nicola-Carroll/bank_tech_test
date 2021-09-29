@@ -1,2 +1,4 @@
 # Ignore test-related files
-./coverage/
+./coverage/.last_run.json
+./coverage/.resultset.json
+./coverage/.resultset.json.lock
