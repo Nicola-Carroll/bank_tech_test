@@ -2,6 +2,8 @@
 
 ## Specification
 
+This is a simple program which can be interacted with via a REPL, that replicates a bank account.
+
 ### Requirements
 - Interactions via IRB
 - Deposits
@@ -25,8 +27,6 @@ date || credit || debit || balance
 ```
 
 ## Set up
-
-This is a simple program which can be interacted with via a REPL, that replicates a bank account.
 
 ### Technologies
 
