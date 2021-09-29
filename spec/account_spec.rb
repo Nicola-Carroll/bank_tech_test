@@ -33,13 +33,13 @@ describe Account do
       end.to raise_error 'Invalid input, please enter a float'
     end
 
-    it 'only accepts floats' do
+    it 'does not accept integers' do
       expect do
         account.deposit(100)
       end.to raise_error 'Invalid input, please enter a float'
     end
 
-    it 'records a deposit in the transaction log' do
+    it 'records a deposit in the transaction log with the correct amount' do
       expect(transaction_log).to receive(:record_transaction).with(100.0)
       account.deposit(100.0)
     end
@@ -52,20 +52,20 @@ describe Account do
       end.to raise_error 'Invalid input, please enter a float'
     end
 
-    it 'only accepts floats' do
+    it 'does not accept integers' do
       expect do
         account.withdraw(100)
       end.to raise_error 'Invalid input, please enter a float'
     end
 
-    it 'records a withdrawal in the transaction log' do
+    it 'records a withdrawal in the transaction log with the correct amount' do
       expect(transaction_log).to receive(:record_transaction).with(-100.0)
       account.withdraw(100.0)
     end
   end
 
   describe '#statement' do
-    it 'calls on the statement formatter class' do
+    it 'uses the statement_formatter to format a statement before printing' do
       expect(statement_formatter).to receive(:statement)
 
       account.statement

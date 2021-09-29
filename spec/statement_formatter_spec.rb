@@ -36,7 +36,7 @@ describe StatementFormatter do
           "#{spoof_date_formatted} || 100.55 || || 200.67\n"
       end
 
-      it 'renders deposits correctly' do
+      it 'renders a statement with multiple deposits correctly' do
         expect do
           statement_formatter.statement(
             historical_transaction_dates: [spoof_date, spoof_date, spoof_date],
@@ -65,7 +65,7 @@ describe StatementFormatter do
           "#{spoof_date_formatted} || 55.65 || || -194.45\n"
       end
 
-      it 'renders deposits and withdrawals correctly' do
+      it 'renders a statement with both deposits and withdrawals correctly' do
         expect do
           statement_formatter.statement(
             historical_transaction_dates: [spoof_date, spoof_date, spoof_date],

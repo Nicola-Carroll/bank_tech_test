@@ -27,10 +27,10 @@ describe TransactionLog do
 
           3.times { transaction_log.record_transaction(100) }
           expect(transaction_log.historical_transaction_dates).to eq [
-            today,
-            today,
-            today
-          ]
+               today,
+               today,
+               today
+             ]
         end
       end
 
@@ -61,12 +61,12 @@ describe TransactionLog do
           transaction_log.record_transaction(-100)
 
           expect(transaction_log.historical_transaction_amounts).to eq [
-            150,
-            405,
-            -50,
-            240,
-            -100
-          ]
+               150,
+               405,
+               -50,
+               240,
+               -100
+             ]
         end
       end
 
