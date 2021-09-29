@@ -27,7 +27,7 @@ class TransactionLog
 
   private
 
-  def total_following_transaction(index = @transactions.count - 1)
+  def total_following_transaction(index)
     return nil if @transactions.empty?
 
     transaction = @transactions[index]
