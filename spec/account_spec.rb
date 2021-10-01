@@ -6,9 +6,11 @@ require 'statement_formatter'
 describe Account do
   let(:transaction_log) do
     double :transaction_log,
-           historical_transaction_dates: 'test',
-           historical_transaction_amounts: 'test',
-           historical_balances: 'test'
+           historical_transactions: {
+             dates: ['test'],
+             amounts: ['test'],
+             balances: ['test']
+           }
   end
   let(:transaction_log_class) do
     double :transaction_log_class, new: transaction_log
@@ -72,21 +74,21 @@ describe Account do
     end
 
     it 'uses all historical transaction dates' do
-      expect(transaction_log).to receive(:historical_transaction_dates)
+      expect(transaction_log).to receive(:historical_transactions)
 
       account.statement
     end
 
-    it 'uses all historical transaction amounts' do
-      expect(transaction_log).to receive(:historical_transaction_amounts)
+    # it 'uses all historical transaction amounts' do
+    #   expect(transaction_log).to receive(:historical_transaction_amounts)
 
-      account.statement
-    end
+    #   account.statement
+    # end
 
-    it 'uses all historical balances' do
-      expect(transaction_log).to receive(:historical_balances)
+    # it 'uses all historical balances' do
+    #   expect(transaction_log).to receive(:historical_balances)
 
-      account.statement
-    end
+    #   account.statement
+    # end
   end
 end

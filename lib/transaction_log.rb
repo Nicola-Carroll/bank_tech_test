@@ -11,21 +11,21 @@ class TransactionLog
     @transactions << @transaction_class.new(date: Time.new, amount: amount)
   end
 
-  def historical_transaction_dates
-    @transactions.map(&:date)
+  def historical_transactions
+    {
+      dates: @transactions.map(&:date),
+      amounts: @transactions.map(&:amount),
+      balances: historical_balances
+    }
   end
 
-  def historical_transaction_amounts
-    @transactions.map(&:amount)
-  end
+  private
 
   def historical_balances
     @transactions.each_with_index.map do |_transaction, index|
       total_following_transaction(index)
     end
   end
-
-  private
 
   def total_following_transaction(index)
     return nil if @transactions.empty?

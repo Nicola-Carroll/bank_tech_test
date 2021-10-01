@@ -11,4 +11,5 @@ group :test do
   gem 'rubocop', '~> 1.21', require: false
   gem 'simplecov', '~> 0.21.2', require: false
   gem 'simplecov-console', require: false
+  gem 'timecop', '~> 0.9.4'
 end

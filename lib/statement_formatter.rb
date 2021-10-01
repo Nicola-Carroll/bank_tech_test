@@ -5,15 +5,11 @@ class StatementFormatter
   STATEMENT_HEADERS = 'date || credit || debit || balance'
   DATE_FORMAT = '%d/%m/%Y'
 
-  def statement(
-    historical_transaction_dates:,
-    historical_transaction_amounts:,
-    historical_balances:
-  )
+  def statement(historical_transactions)
     statement_rows(
-      historical_transaction_dates,
-      historical_transaction_amounts,
-      historical_balances
+      historical_transactions[:dates],
+      historical_transactions[:amounts],
+      historical_transactions[:balances]
     ).each { |row| puts row }
   end
 

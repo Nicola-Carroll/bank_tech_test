@@ -5,7 +5,7 @@ require 'statement_formatter'
 describe StatementFormatter do
   let(:statement_formatter) { described_class.new }
 
-  let(:spoof_date) { Time.new(2021, 0o1, 0o1) }
+  let(:spoof_date) { Time.new(2021, 01, 01) }
   let(:spoof_date_formatted) do
     Time.new(2021, 0o1, 0o1).strftime(StatementFormatter::DATE_FORMAT)
   end
@@ -15,11 +15,7 @@ describe StatementFormatter do
 
     it 'renders a blank statement correctly' do
       expect do
-        statement_formatter.statement(
-          historical_transaction_dates: [],
-          historical_transaction_amounts: [],
-          historical_balances: []
-        )
+        statement_formatter.statement({ dates: [], amounts: [], balances: [] })
       end.to output(blank_statement).to_stdout
     end
 
@@ -39,9 +35,11 @@ describe StatementFormatter do
       it 'renders a statement with multiple deposits correctly' do
         expect do
           statement_formatter.statement(
-            historical_transaction_dates: [spoof_date, spoof_date, spoof_date],
-            historical_transaction_amounts: [100, 100, 100],
-            historical_balances: [100, 200, 300]
+            {
+              dates: [spoof_date, spoof_date, spoof_date],
+              amounts: [100, 100, 100],
+              balances: [100, 200, 300]
+            }
           )
         end.to output(expected_output).to_stdout
       end
@@ -49,9 +47,11 @@ describe StatementFormatter do
       it 'rounds decimals correctly' do
         expect do
           statement_formatter.statement(
-            historical_transaction_dates: [spoof_date, spoof_date],
-            historical_transaction_amounts: [100.1211, 100.547],
-            historical_balances: [100.1211, 200.6681]
+            {
+              dates: [spoof_date, spoof_date],
+              amounts: [100.1211, 100.547],
+              balances: [100.1211, 200.6681]
+            }
           )
         end.to output(expected_output_decimals).to_stdout
       end
@@ -68,9 +68,11 @@ describe StatementFormatter do
       it 'renders a statement with both deposits and withdrawals correctly' do
         expect do
           statement_formatter.statement(
-            historical_transaction_dates: [spoof_date, spoof_date, spoof_date],
-            historical_transaction_amounts: [150, -400.1, 55.65],
-            historical_balances: [150, -250.1, -194.45]
+            {
+              dates: [spoof_date, spoof_date, spoof_date],
+              amounts: [150, -400.1, 55.65],
+              balances: [150, -250.1, -194.45]
+            }
           )
         end.to output(expected_output).to_stdout
       end

@@ -1,11 +1,14 @@
 # frozen_string_literal: true
+require './lib/transaction'
+require './lib/transaction_log'
+require './lib/statement_formatter'
 
 # the user interface of the bank account
 class Account
   def initialize(
-    transaction_class:,
-    transaction_log_class:,
-    statement_formatter_class:
+    transaction_class: Transaction,
+    transaction_log_class: TransactionLog,
+    statement_formatter_class: StatementFormatter
   )
     @transaction_log =
       transaction_log_class.new(transaction_class: transaction_class)
@@ -25,12 +28,6 @@ class Account
   end
 
   def statement
-    @statement_formatter.statement(
-      historical_transaction_dates:
-        @transaction_log.historical_transaction_dates,
-      historical_transaction_amounts:
-        @transaction_log.historical_transaction_amounts,
-      historical_balances: @transaction_log.historical_balances
-    )
+    @statement_formatter.statement(@transaction_log.historical_transactions)
   end
 end
