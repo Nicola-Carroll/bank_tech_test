@@ -64,10 +64,10 @@ describe TransactionLog do
 
         3.times { transaction_log.record_transaction(100) }
         expect(transaction_log.historical_transactions[:dates]).to eq [
-             today,
-             today,
-             today
-           ]
+          today,
+          today,
+          today
+        ]
       end
     end
 
@@ -95,12 +95,12 @@ describe TransactionLog do
       transaction_log.record_transaction(-100)
 
       expect(transaction_log.historical_transactions[:amounts]).to eq [
-           150,
-           405,
-           -50,
-           240,
-           -100
-         ]
+        150,
+        405,
+        -50,
+        240,
+        -100
+      ]
     end
 
     let(:transaction150) { double :transaction, date: today, amount: 150 }
@@ -139,11 +139,11 @@ describe TransactionLog do
       transaction_log.record_transaction(-100)
 
       expect(transaction_log.historical_transactions[:balances]).to eq [
-           150,
-           100,
-           340,
-           240
-         ]
+        150,
+        100,
+        340,
+        240
+      ]
     end
   end
 end

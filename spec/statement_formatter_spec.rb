@@ -5,7 +5,7 @@ require 'statement_formatter'
 describe StatementFormatter do
   let(:statement_formatter) { described_class.new }
 
-  let(:spoof_date) { Time.new(2021, 01, 01) }
+  let(:spoof_date) { Time.new(2021, 0o1, 0o1) }
   let(:spoof_date_formatted) do
     Time.new(2021, 0o1, 0o1).strftime(StatementFormatter::DATE_FORMAT)
   end

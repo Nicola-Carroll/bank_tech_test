@@ -38,7 +38,7 @@ class StatementFormatter
   end
 
   def debit(amount)
-    "#{string_with_two_decimals(-amount)} " if amount.negative?
+    credit(-amount) if amount.negative?
   end
 
   def balance(amount)
