@@ -62,12 +62,12 @@ cd bank_tech_test
 irb
 ```
 
-Load the file `app.rb` in the project root directory. An Account instance `ACCOUNT` will be available to use from within IRB.
+Load the file `./lib/account`. The command `Account.new` has three optional arguments: `transaction_class:`, `transaction_log_class:`, and `statement_formatter_class:`. The defaults for these attributes are set as the corresponding classes defined within this directory.
 
 ```
-3.0.2 :001 > require './app.rb'
+3.0.2 :001 > require './lib/account'
  => true
-3.0.2 :002 > ACCOUNT
+3.0.2 :002 > account = Account.new
  =>
 #<Account:0x00007f8c859f7270
  @statement_formatter=#<StatementFormatter:0x00007f8c859f6a50>,
@@ -77,16 +77,13 @@ Load the file `app.rb` in the project root directory. An Account instance `ACCOU
 The account simulator can support depositing and withdrawing an amout of money represented by a Float, and printing a statement to `$stdout`.
 
 ```
-3.0.2 :003 > ACCOUNT.deposit(100.0)
-3.0.2 :004 > ACCOUNT.withdraw(50.0)
-3.0.2 :005 > ACCOUNT.statement
+3.0.2 :003 > account.deposit(100.0)
+3.0.2 :004 > account.withdraw(50.0)
+3.0.2 :005 > account.statement
 date || credit || debit || balance
 29/09/2021 || 100.00 || || 100.00
 29/09/2021 || || 50.00 || 50.00
 ```
-
-To open a new account, the `Account` class requires three arguments: `transaction_class:`, `transaction_log_class:`, and `statement_formatter_class:`. 
-
 
 
 ## Initial domain model
