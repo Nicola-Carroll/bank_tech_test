@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require './lib/transaction'
 require './lib/transaction_log'
 require './lib/statement_formatter'

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'timecop'
+
 require 'transaction_log'
 
 describe TransactionLog do
@@ -25,7 +27,7 @@ describe TransactionLog do
       transaction_log.record_transaction(100)
     end
 
-    it 'creates a transaction for the current date' do
+    it 'creates a new time object' do
       allow(transaction_class).to receive(:new).with(
         date: anything,
         amount: anything
@@ -33,6 +35,15 @@ describe TransactionLog do
 
       expect(Time).to receive(:new).with(no_args)
       transaction_log.record_transaction(100)
+    end
+
+    it 'creates a transaction for the current date' do
+      new_time = Time.new(2021, 1, 1)
+      Timecop.freeze(new_time)
+
+      allow(transaction_class).to receive(:new).and_return(transaction100)
+      transaction_log.record_transaction(100)
+      expect(transaction_log.historical_transactions[:dates]).to eq [new_time]
     end
   end
 
